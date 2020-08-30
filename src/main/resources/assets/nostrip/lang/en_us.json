@@ -1,0 +1,7 @@
+{
+  "text.nostrip.toggle": "Stripping %s",
+  "text.nostrip.on" : "§a§lOn",
+  "text.nostrip.off" : "§c§lOff",
+  "key.nostrip.togglestrip": "Toggle Log Stripping",
+  "category.nostrip.title" : "No Strip"
+}

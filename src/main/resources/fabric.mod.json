@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "nostrip",
+  "version": "${version}",
+  "name": "No Strip",
+  "description": "Adds a toggle for whether you can strip logs",
+  "authors": [
+    "Potatoboy9999"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/no-strip",
+    "issues": "https://github.com/PotatoPresident/NoStrip/issues"
+  },
+  "license": "MIT",
+  "icon": "icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "us.potatoboy.nostrip.client.NostripClient"
+    ]
+  },
+  "mixins": [
+    "nostrip.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.2",
+    "fabric": "*",
+    "minecraft": ">=1.16.2"
+  }
+}
