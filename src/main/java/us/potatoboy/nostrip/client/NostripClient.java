@@ -12,6 +12,7 @@ import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.Tag;
 import net.minecraft.text.TranslatableText;
@@ -19,6 +20,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
+
+import javax.tools.Tool;
 
 @Environment(EnvType.CLIENT)
 public class NostripClient implements ClientModInitializer {
@@ -36,7 +39,7 @@ public class NostripClient implements ClientModInitializer {
             BlockPos blockPos = blockHitResult.getBlockPos();
             BlockState blockState = world.getBlockState(blockPos);
 
-            if (stack.getItem() instanceof AxeItem) {
+            if (stack.getItem() instanceof ToolItem) {
                 if (blockState.isIn(BlockTags.LOGS)) {
                     return ActionResult.FAIL;
                 }
