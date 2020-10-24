@@ -19,9 +19,6 @@
       "us.potatoboy.nostrip.client.NostripClient"
     ]
   },
-  "mixins": [
-    "nostrip.mixins.json"
-  ],
   "depends": {
     "fabricloader": ">=0.7.2",
     "fabric": "*",
