@@ -75,3 +75,7 @@ publishing {
         // mavenLocal()
     }
 }
+
+minecraft {
+    accessWidener "src/main/resources/nostrip.accesswidener"
+}

@@ -11,6 +11,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ToolItem;
@@ -40,14 +41,14 @@ public class NostripClient implements ClientModInitializer {
             BlockState blockState = world.getBlockState(blockPos);
 
             if (stack.getItem() instanceof ToolItem) {
-                if (blockState.isIn(BlockTags.LOGS)) {
+                if (AxeItem.STRIPPED_BLOCKS.containsKey(blockState.getBlock())) {
                     informPlayer(playerEntity);
                     return ActionResult.FAIL;
                 }
             }
             
             if (stack.getItem() instanceof ShovelItem) {
-                if (blockState.getBlock() == Blocks.GRASS_BLOCK || blockState.getBlock() == Blocks.DIRT) {
+                if (ShovelItem.PATH_STATES.containsKey(blockState.getBlock())) {
                     informPlayer(playerEntity);
                     return ActionResult.FAIL;
                 }
