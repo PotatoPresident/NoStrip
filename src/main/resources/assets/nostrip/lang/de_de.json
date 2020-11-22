@@ -1,0 +1,9 @@
+{
+  "text.nostrip.toggle": "Rindenentfernung %s",
+  "text.nostrip.on" : "§a§lEin",
+  "text.nostrip.off" : "§c§lAus",
+  "text.nostrip.prevented" : "§aNoStrip has diese Aktion verhindert",
+  "text.nostrip.enableby" : "§aNoStrip has diese Aktion verhindert, %s§a schaltet ein",
+  "key.nostrip.togglestrip": "Rinde Entfernen umschalten",
+  "category.nostrip.title" : "No Strip"
+}

@@ -6,22 +6,20 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.item.AxeItem;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ToolItem;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.Tag;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
-
-import javax.tools.Tool;
 
 @Environment(EnvType.CLIENT)
 public class NostripClient implements ClientModInitializer {
@@ -29,6 +27,8 @@ public class NostripClient implements ClientModInitializer {
     private boolean doStrip = false;
     private TranslatableText on = new TranslatableText("text.nostrip.on");
     private TranslatableText off = new TranslatableText("text.nostrip.off");
+    private static long lastMessage = 0;
+    private static final int MESSAGE_REPEAT_TIME = 1000;
 
     @Override
     public void onInitializeClient() {
@@ -41,6 +41,14 @@ public class NostripClient implements ClientModInitializer {
 
             if (stack.getItem() instanceof ToolItem) {
                 if (blockState.isIn(BlockTags.LOGS)) {
+                    informPlayer(playerEntity);
+                    return ActionResult.FAIL;
+                }
+            }
+            
+            if (stack.getItem() instanceof ShovelItem) {
+                if (blockState.getBlock() == Blocks.GRASS_BLOCK || blockState.getBlock() == Blocks.DIRT) {
+                    informPlayer(playerEntity);
                     return ActionResult.FAIL;
                 }
             }
@@ -60,5 +68,19 @@ public class NostripClient implements ClientModInitializer {
                 client.player.sendMessage(new TranslatableText("text.nostrip.toggle", doStrip ? on : off), true);
             }
         });
+    }
+    
+    private void informPlayer(PlayerEntity player) {
+        if (System.currentTimeMillis() < lastMessage + MESSAGE_REPEAT_TIME) {
+            return;
+        }
+        lastMessage = System.currentTimeMillis();
+        Text message;
+        if (KeyBindingHelper.getBoundKeyOf(keyBinding).equals(GLFW.GLFW_KEY_UNKNOWN)) {
+            message = new TranslatableText("text.nostrip.prevented");
+        } else {
+            message = new TranslatableText("text.nostrip.enableby", KeyBindingHelper.getBoundKeyOf(keyBinding).getLocalizedText());
+        }
+        player.sendMessage(message, true);
     }
 }

@@ -2,6 +2,8 @@
   "text.nostrip.toggle": "Stripping %s",
   "text.nostrip.on" : "§a§lOn",
   "text.nostrip.off" : "§c§lOff",
+  "text.nostrip.prevented" : "§aNoStrip has prevented this action",
+  "text.nostrip.enableby" : "§aNoStrip has prevented this action, press %s§a to toggle",
   "key.nostrip.togglestrip": "Toggle Log Stripping",
   "category.nostrip.title" : "No Strip"
 }
