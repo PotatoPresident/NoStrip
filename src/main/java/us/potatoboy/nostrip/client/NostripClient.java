@@ -34,6 +34,7 @@ public class NostripClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         UseBlockCallback.EVENT.register(((playerEntity, world, hand, blockHitResult) -> {
+            if (!world.isClient) return ActionResult.PASS;
             if (doStrip) return ActionResult.PASS;
 
             ItemStack stack = playerEntity.getStackInHand(hand);
