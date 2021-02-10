@@ -3,11 +3,12 @@ package us.potatoboy.nostrip.client;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,12 +16,14 @@ import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ToolItem;
-import net.minecraft.tag.BlockTags;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
+import org.apache.logging.log4j.LogManager;
 import org.lwjgl.glfw.GLFW;
+
+import java.io.IOException;
 
 @Environment(EnvType.CLIENT)
 public class NostripClient implements ClientModInitializer {
@@ -30,9 +33,21 @@ public class NostripClient implements ClientModInitializer {
     private TranslatableText off = new TranslatableText("text.nostrip.off");
     private static long lastMessage = 0;
     private static final int MESSAGE_REPEAT_TIME = 1000;
+    private static NoStripConfig config;
 
     @Override
     public void onInitializeClient() {
+
+        // Create config object from JSON
+        try {
+            config = NoStripConfig.read();
+            doStrip = config.getStrip();
+        }
+        catch (IOException e) {
+            LogManager.getLogger().info("Unable to find nostrip config file, creating");
+            NoStripConfig.create();
+        }
+
         UseBlockCallback.EVENT.register(((playerEntity, world, hand, blockHitResult) -> {
             if (!world.isClient) return ActionResult.PASS;
             if (doStrip) return ActionResult.PASS;
@@ -56,6 +71,9 @@ public class NostripClient implements ClientModInitializer {
             }
             return ActionResult.PASS;
         }));
+        ClientLifecycleEvents.CLIENT_STOPPING.register((MinecraftClient client) -> {
+            config.save(config);
+        });
 
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.nostrip.togglestrip",
@@ -73,7 +91,7 @@ public class NostripClient implements ClientModInitializer {
     }
     
     private void informPlayer(PlayerEntity player) {
-        if (System.currentTimeMillis() < lastMessage + MESSAGE_REPEAT_TIME) {
+        if (!config.sendFeedback() || System.currentTimeMillis() < lastMessage + MESSAGE_REPEAT_TIME) {
             return;
         }
         lastMessage = System.currentTimeMillis();
