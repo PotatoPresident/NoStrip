@@ -1,0 +1,9 @@
+{
+  "text.nostrip.toggle": "Strippen %s",
+  "text.nostrip.on" : "§a§lAan",
+  "text.nostrip.off" : "§c§lUit",
+  "text.nostrip.prevented" : "§aNoStrip heeft deze actie verhinderd",
+  "text.nostrip.enableby" : "§aNoStrip heeft deze actie heeft verhinderd, druk %s§a om te schakelen",
+  "key.nostrip.togglestrip": "Toggle Log Strippen",
+  "category.nostrip.title" : "Niet strippen"
+}
