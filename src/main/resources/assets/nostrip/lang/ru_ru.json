@@ -1,0 +1,10 @@
+  
+{
+  "text.nostrip.toggle": "Обтёсывание %s",
+  "text.nostrip.on" : "§a§lВключено",
+  "text.nostrip.off" : "§c§lВыключено",
+  "text.nostrip.prevented" : "§aNoStrip предотвратил это действие",
+  "text.nostrip.enableby" : "§aNoStrip предотвратил это действие, нажми %s§a чтобы переключить",
+  "key.nostrip.togglestrip": "Вкл/выкл Обтёсывание брёвен",
+  "category.nostrip.title" : "No Strip"
+}

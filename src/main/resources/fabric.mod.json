@@ -7,6 +7,9 @@
   "authors": [
     "Potatoboy9999"
   ],
+  "contributors": [
+    "gbl"
+  ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/no-strip",
     "issues": "https://github.com/PotatoPresident/NoStrip/issues"
@@ -23,5 +26,6 @@
     "fabricloader": ">=0.7.2",
     "fabric": "*",
     "minecraft": "^1.16.2"
-  }
+  },
+  "accessWidener": "nostrip.accesswidener"
 }
