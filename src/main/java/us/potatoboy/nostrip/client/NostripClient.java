@@ -7,9 +7,10 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
@@ -20,10 +21,9 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
-import org.apache.logging.log4j.LogManager;
 import org.lwjgl.glfw.GLFW;
 
-import java.io.IOException;
+import java.io.File;
 
 @Environment(EnvType.CLIENT)
 public class NostripClient implements ClientModInitializer {
@@ -39,14 +39,8 @@ public class NostripClient implements ClientModInitializer {
     public void onInitializeClient() {
 
         // Create config object from JSON
-        try {
-            config = NoStripConfig.read();
-            doStrip = config.getStrip();
-        }
-        catch (IOException e) {
-            LogManager.getLogger().info("Unable to find nostrip config file, creating");
-            NoStripConfig.create();
-        }
+        config = NoStripConfig.loadConfig(new File(FabricLoader.getInstance().getConfigDir() + "/htm_config.json"));
+        doStrip = config.isStripping();
 
         UseBlockCallback.EVENT.register(((playerEntity, world, hand, blockHitResult) -> {
             if (!world.isClient) return ActionResult.PASS;
@@ -62,7 +56,7 @@ public class NostripClient implements ClientModInitializer {
                     return ActionResult.FAIL;
                 }
             }
-            
+
             if (stack.getItem() instanceof ShovelItem) {
                 if (ShovelItem.PATH_STATES.containsKey(blockState.getBlock())) {
                     informPlayer(playerEntity);
@@ -72,7 +66,7 @@ public class NostripClient implements ClientModInitializer {
             return ActionResult.PASS;
         }));
         ClientLifecycleEvents.CLIENT_STOPPING.register((MinecraftClient client) -> {
-            config.save(config);
+            config.saveConfig(new File(FabricLoader.getInstance().getConfigDir() + "/htm_config.json"));
         });
 
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -89,9 +83,9 @@ public class NostripClient implements ClientModInitializer {
             }
         });
     }
-    
+
     private void informPlayer(PlayerEntity player) {
-        if (!config.sendFeedback() || System.currentTimeMillis() < lastMessage + MESSAGE_REPEAT_TIME) {
+        if (!config.isFeedback() || System.currentTimeMillis() < lastMessage + MESSAGE_REPEAT_TIME) {
             return;
         }
         lastMessage = System.currentTimeMillis();
