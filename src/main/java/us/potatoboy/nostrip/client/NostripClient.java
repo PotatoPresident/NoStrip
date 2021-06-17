@@ -39,7 +39,7 @@ public class NostripClient implements ClientModInitializer {
     public void onInitializeClient() {
 
         // Create config object from JSON
-        config = NoStripConfig.loadConfig(new File(FabricLoader.getInstance().getConfigDir() + "/htm_config.json"));
+        config = NoStripConfig.loadConfig(new File(FabricLoader.getInstance().getConfigDir() + "/nostrip_config.json"));
         doStrip = config.isStripping();
 
         UseBlockCallback.EVENT.register(((playerEntity, world, hand, blockHitResult) -> {
@@ -66,7 +66,7 @@ public class NostripClient implements ClientModInitializer {
             return ActionResult.PASS;
         }));
         ClientLifecycleEvents.CLIENT_STOPPING.register((MinecraftClient client) -> {
-            config.saveConfig(new File(FabricLoader.getInstance().getConfigDir() + "/htm_config.json"));
+            config.saveConfig(new File(FabricLoader.getInstance().getConfigDir() + "/nostrip_config.json"));
         });
 
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
