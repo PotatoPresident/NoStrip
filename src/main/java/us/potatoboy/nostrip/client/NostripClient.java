@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ToolItem;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.glfw.GLFW;
@@ -29,8 +28,8 @@ import java.io.File;
 public class NostripClient implements ClientModInitializer {
     private static KeyBinding keyBinding;
     private boolean doStrip = false;
-    private TranslatableText on = new TranslatableText("text.nostrip.on");
-    private TranslatableText off = new TranslatableText("text.nostrip.off");
+    private final Text on = Text.translatable("text.nostrip.on");
+    private final Text off = Text.translatable("text.nostrip.off");
     private static long lastMessage = 0;
     private static final int MESSAGE_REPEAT_TIME = 1000;
     private static NoStripConfig config;
@@ -79,7 +78,7 @@ public class NostripClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (keyBinding.wasPressed()) {
                 doStrip = !doStrip;
-                client.player.sendMessage(new TranslatableText("text.nostrip.toggle", doStrip ? on : off), true);
+                client.player.sendMessage(Text.translatable("text.nostrip.toggle", doStrip ? on : off), true);
             }
         });
     }
@@ -90,10 +89,10 @@ public class NostripClient implements ClientModInitializer {
         }
         lastMessage = System.currentTimeMillis();
         Text message;
-        if (KeyBindingHelper.getBoundKeyOf(keyBinding).equals(GLFW.GLFW_KEY_UNKNOWN)) {
-            message = new TranslatableText("text.nostrip.prevented");
+        if (KeyBindingHelper.getBoundKeyOf(keyBinding).getCode() == GLFW.GLFW_KEY_UNKNOWN) {
+            message = Text.translatable("text.nostrip.prevented");
         } else {
-            message = new TranslatableText("text.nostrip.enableby", KeyBindingHelper.getBoundKeyOf(keyBinding).getLocalizedText());
+            message = Text.translatable("text.nostrip.enableby", KeyBindingHelper.getBoundKeyOf(keyBinding).getLocalizedText());
         }
         player.sendMessage(message, true);
     }
