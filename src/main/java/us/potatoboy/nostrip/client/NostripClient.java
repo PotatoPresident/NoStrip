@@ -14,11 +14,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.HoneycombItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShovelItem;
-import net.minecraft.item.ToolItem;
+import net.minecraft.item.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
@@ -51,7 +47,7 @@ public class NostripClient implements ClientModInitializer {
             BlockPos blockPos = blockHitResult.getBlockPos();
             BlockState blockState = world.getBlockState(blockPos);
 
-            if (stack.getItem() instanceof ToolItem) {
+            if (stack.getItem() instanceof MiningToolItem) {
                 if (AxeItem.STRIPPED_BLOCKS.containsKey(blockState.getBlock())
                         || Oxidizable.OXIDATION_LEVEL_DECREASES.get().containsKey(blockState.getBlock())
                         || HoneycombItem.WAXED_TO_UNWAXED_BLOCKS.get().containsKey(blockState.getBlock())
