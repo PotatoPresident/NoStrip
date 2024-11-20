@@ -9,11 +9,13 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Oxidizable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
+import net.minecraft.item.HoneycombItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ToolItem;
@@ -50,7 +52,10 @@ public class NostripClient implements ClientModInitializer {
             BlockState blockState = world.getBlockState(blockPos);
 
             if (stack.getItem() instanceof ToolItem) {
-                if (AxeItem.STRIPPED_BLOCKS.containsKey(blockState.getBlock())) {
+                if (AxeItem.STRIPPED_BLOCKS.containsKey(blockState.getBlock())
+                        || Oxidizable.OXIDATION_LEVEL_DECREASES.get().containsKey(blockState.getBlock())
+                        || HoneycombItem.WAXED_TO_UNWAXED_BLOCKS.get().containsKey(blockState.getBlock())
+                ) {
                     informPlayer(playerEntity);
                     return ActionResult.FAIL;
                 }
