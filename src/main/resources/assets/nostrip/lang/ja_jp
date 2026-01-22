@@ -1,0 +1,9 @@
+{
+  "text.nostrip.toggle": "剥ぎ取り機能%s",
+  "text.nostrip.on" : "§a§lオン",
+  "text.nostrip.off" : "§c§lオフ",
+  "text.nostrip.prevented" : "§aNoStripがその行動を阻止しました",
+  "text.nostrip.enableby" : "§aNoStripがその行動を阻止しました。%s§aを押して切替",
+  "key.nostrip.togglestrip": "剥ぎ取り機能の切替",
+  "category.nostrip.title" : "No Strip"
+}
