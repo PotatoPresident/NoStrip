@@ -1,0 +1,11 @@
+{
+  "mod.nostrip.name": "不要剥原木",
+  "mod.nostrip.description": "添加一个开关，用于控制是否可以对原木进行剥皮",
+  "text.nostrip.toggle": "原木剥皮：%s",
+  "text.nostrip.on": "§a§l开启",
+  "text.nostrip.off": "§c§l关闭",
+  "text.nostrip.prevented": "§aNoStrip 已阻止此操作",
+  "text.nostrip.enableby": "§aNoStrip 已阻止此操作，按 %s§a 切换",
+  "key.nostrip.togglestrip": "切换原木剥皮",
+  "key.category.nostrip.keys": "禁止原木剥皮"
+}
